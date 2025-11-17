@@ -12,6 +12,8 @@ this script).
 from __future__ import annotations
 
 import io
+import os
+import subprocess
 from datetime import datetime
 from importlib import import_module
 from html import escape
@@ -25,6 +27,7 @@ import plotly.graph_objects as go
 import streamlit as st
 from plotly.subplots import make_subplots
 sync_playwright = None  # lazy loaded via get_sync_playwright()
+PLAYWRIGHT_INSTALL_ATTEMPTED = False
 
 LIKERT_ORDER = [
     "Never",
@@ -723,9 +726,40 @@ def build_html_snapshot(section: str, payload: Dict) -> str:
 
 
 def convert_html_to_pdf_bytes(html_content: str) -> bytes:
+    global PLAYWRIGHT_INSTALL_ATTEMPTED  # noqa: WPS420
+    if os.getenv("DISABLE_STYLED_PDF", "").lower() in {"1", "true", "yes"}:
+        raise PlaywrightUnavailable(
+            "Styled PDF downloads are disabled via DISABLE_STYLED_PDF."
+        )
     factory = get_sync_playwright()
     with factory() as playwright:
-        browser = playwright.chromium.launch()
+        try:
+            browser = playwright.chromium.launch()
+        except Exception as exc:  # noqa: BLE001
+            if not PLAYWRIGHT_INSTALL_ATTEMPTED:
+                PLAYWRIGHT_INSTALL_ATTEMPTED = True
+                try:
+                    subprocess.run(
+                        ["playwright", "install", "chromium"],
+                        check=True,
+                        stdout=subprocess.PIPE,
+                        stderr=subprocess.PIPE,
+                    )
+                    browser = playwright.chromium.launch()
+                except Exception as install_exc:  # noqa: BLE001
+                    raise PlaywrightUnavailable(
+                        "Styled PDF rendering needs the Playwright Chromium browser. "
+                        "Streamlit Cloud usually installs it automatically, but "
+                        "if the download fails you can disable the button by "
+                        "setting DISABLE_STYLED_PDF=1 in the app's secrets."
+                    ) from install_exc
+            else:
+                raise PlaywrightUnavailable(
+                    "Styled PDF rendering needs the Playwright Chromium browser. "
+                    "Install it by running `playwright install chromium` "
+                    "during deployment, or disable PDF downloads by setting "
+                    "DISABLE_STYLED_PDF=1."
+                ) from exc
         page = browser.new_page(viewport={"width": 1100, "height": 1600})
         page.set_content(html_content, wait_until="networkidle")
         pdf_bytes = page.pdf(
