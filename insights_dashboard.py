@@ -12,15 +12,14 @@ this script).
 from __future__ import annotations
 
 import io
+import math
 import os
 import subprocess
 from datetime import datetime
-from importlib import import_module
 from html import escape
+from importlib import import_module
 from pathlib import Path
 from typing import Dict, List
-
-import math
 
 import pandas as pd
 import plotly.graph_objects as go
@@ -28,6 +27,11 @@ import streamlit as st
 from plotly.subplots import make_subplots
 sync_playwright = None  # lazy loaded via get_sync_playwright()
 PLAYWRIGHT_INSTALL_ATTEMPTED = False
+_default_browser_cache = Path(
+    os.getenv("PLAYWRIGHT_BROWSERS_PATH") or (Path.cwd() / ".cache" / "ms-playwright")
+).resolve()
+os.environ.setdefault("PLAYWRIGHT_BROWSERS_PATH", str(_default_browser_cache))
+_default_browser_cache.mkdir(parents=True, exist_ok=True)
 
 LIKERT_ORDER = [
     "Never",
@@ -807,9 +811,9 @@ def render_section(section_name: str, payload: Dict) -> None:
         section_name, payload["distributions"]
     )
 
-    st.plotly_chart(gauge, use_container_width=True)
-    st.plotly_chart(trend, use_container_width=True)
-    st.plotly_chart(distribution, use_container_width=True)
+    st.plotly_chart(gauge, width="stretch")
+    st.plotly_chart(trend, width="stretch")
+    st.plotly_chart(distribution, width="stretch")
 
     try:
         styled_pdf = build_styled_pdf(section_name, payload)
