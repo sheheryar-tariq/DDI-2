@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice - Muhammad Sheheryar Tariq</title>
+    <style>
+        @font-face {
+            font-family: 'Montserrat';
+            font-style: normal;
+            font-weight: 300;
+            font-display: swap;
+            src: url(https://fonts.gstatic.com/s/montserrat/v31/JTUHjIg1_i6t8kCHKm4532VJOt5-QNFgpCs16Ew-.ttf) format('truetype');
+        }
+        @font-face {
+            font-family: 'Montserrat';
+            font-style: normal;
+            font-weight: 400;
+            font-display: swap;
+            src: url(https://fonts.gstatic.com/s/montserrat/v31/JTUHjIg1_i6t8kCHKm4532VJOt5-QNFgpCtr6Ew-.ttf) format('truetype');
+        }
+        @font-face {
+            font-family: 'Montserrat';
+            font-style: normal;
+            font-weight: 500;
+            font-display: swap;
+            src: url(https://fonts.gstatic.com/s/montserrat/v31/JTUHjIg1_i6t8kCHKm4532VJOt5-QNFgpCtZ6Ew-.ttf) format('truetype');
+        }
+        @font-face {
+            font-family: 'Montserrat';
+            font-style: normal;
+            font-weight: 600;
+            font-display: swap;
+            src: url(https://fonts.gstatic.com/s/montserrat/v31/JTUHjIg1_i6t8kCHKm4532VJOt5-QNFgpCu170w-.ttf) format('truetype');
+        }
+        @font-face {
+            font-family: 'Montserrat';
+            font-style: normal;
+            font-weight: 700;
+            font-display: swap;
+            src: url(https://fonts.gstatic.com/s/montserrat/v31/JTUHjIg1_i6t8kCHKm4532VJOt5-QNFgpCuM70w-.ttf) format('truetype');
+        }
+
+        @media print {
+            body {
+                margin: 0;
+                padding: 0;
+            }
+            .invoice-container {
+                box-shadow: none;
+                padding: 30px;
+                margin: 0;
+            }
+        }
+        body {
+            font-family: 'Montserrat', sans-serif;
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .invoice-container {
+            background-color: white;
+            padding: 40px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+            border-radius: 12px;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 3px solid #667eea;
+        }
+        .invoice-title {
+            font-size: 36px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .invoice-details {
+            text-align: right;
+        }
+        .section {
+            margin-bottom: 30px;
+        }
+        .section-title {
+            font-weight: 600;
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .two-column {
+            display: flex;
+            justify-content: space-between;
+            gap: 0px;
+        }
+        .column {
+            flex: 1;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 14px 12px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 14px;
+            letter-spacing: 0.5px;
+        }
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #e8e8e8;
+        }
+        .amount-column {
+            text-align: right;
+        }
+        .total-row {
+            font-weight: 600;
+            font-size: 18px;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+        }
+        .total-row td {
+            padding: 18px 12px;
+            border-bottom: 3px solid #667eea;
+        }
+        .payment-info {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.08) 0%, rgba(118, 75, 162, 0.08) 100%);
+            padding: 24px;
+            margin-top: 30px;
+            border-left: 4px solid #667eea;
+            border-radius: 6px;
+        }
+        .footer {
+            margin-top: 40px;
+            text-align: center;
+            font-size: 12px;
+            color: #888;
+            font-weight: 300;
+        }
+        .info-line {
+            margin: 3px 0;
+            line-height: 1.4;
+            color: #444;
+        }
+        .label {
+            font-size: 13px;
+            color: #888;
+            font-weight: 400;
+        }
+        .value {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="invoice-container">
+        <div class="header">
+            <div>
+                <div class="invoice-title">INVOICE</div>
+            </div>
+            <div class="invoice-details">
+                <div class="label">Invoice Date</div>
+                <div class="value" style="margin-bottom: 12px;">06 November 2025</div>
+                <div class="label">Invoice Number</div>
+                <div class="value">INV-2025-001</div>
+            </div>
+        </div>
+
+        <div class="two-column">
+            <div class="column">
+                <div class="section">
+                    <div class="section-title">From</div>
+                    <div class="info-line" style="font-weight: 600; color: #333;">Muhammad Sheheryar Tariq</div>
+                    <div class="info-line">ABN: 27 389 932 267</div>
+                    <div class="info-line">1 Hillwater Promenade</div>
+                    <div class="info-line">Mobile: 0487 384 124</div>
+                    <div class="info-line">Email: sheheryartariq@ymail.com</div>
+                </div>
+            </div>
+            <div class="column">
+                <div class="section">
+                    <div class="section-title">Bill To</div>
+                    <div class="info-line" style="font-weight: 600; color: #333;">Eco Structures Australia PTY LTD</div>
+                    <div class="info-line">Attn: Tiki Plunkett</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">Services Provided</div>
+            <div class="info-line" style="color: #888; font-size: 14px;">Work Period: 29 October 2025 - 05 November 2025</div>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width: 60%;">Description</th>
+                        <th style="width: 15%;">Hours</th>
+                        <th style="width: 15%;">Rate</th>
+                        <th style="width: 10%;" class="amount-column">Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <strong style="color: #333;">Power Platform Consulting & Development</strong>
+                            <br>
+                            <span style="font-size: 13px; color: #666; font-weight: 300; line-height: 1.6;">
+                                • Fixed task creation and task updation flows<br>
+                                • Consolidated multiple flows into one optimized flow<br>
+                                • Created automation for task end date updates based on sequential task dependencies<br>
+                                • Resolved Copilot for Sales configuration error
+                            </span>
+                        </td>
+                        <td style="color: #333; font-weight: 500;">48</td>
+                        <td style="color: #333; font-weight: 500;">$50.00</td>
+                        <td class="amount-column" style="color: #333; font-weight: 500;">$2,400.00</td>
+                    </tr>
+                    <tr class="total-row">
+                        <td colspan="3" style="text-align: right; color: #667eea;">TOTAL AMOUNT DUE (AUD)</td>
+                        <td class="amount-column" style="color: #667eea;">$2,400.00</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="payment-info">
+            <div class="section-title">Payment Details</div>
+            <div class="info-line" style="font-weight: 500; color: #333; margin-bottom: 8px;"><span style="color: #667eea;">PayID:</span> 0487384124 (Muhammad Sheheryar Tariq)</div>
+            <div class="info-line" style="font-weight: 600; color: #333; margin-top: 16px; margin-bottom: 4px;"><span style="color: #667eea;">Bank Transfer:</span></div>
+            <div class="info-line"><span style="color: #667eea;">Bank Name:</span> Commonwealth Bank</div>
+            <div class="info-line"><span style="color: #667eea;">BSB:</span> 066-013</div>
+            <div class="info-line"><span style="color: #667eea;">Account:</span> 10516786</div>
+            <div class="info-line"><span style="color: #667eea;">Account Name:</span> Muhammad Sheheryar Tariq</div>
+        </div>
+
+        <div class="footer">
+        </div>
+    </div>
+</body>
+</html>

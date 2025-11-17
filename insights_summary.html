@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Insights Summary Snapshot</title>
+    <style>
+        @font-face {
+            font-family: 'Montserrat';
+            font-style: normal;
+            font-weight: 400;
+            font-display: swap;
+            src: url(https://fonts.gstatic.com/s/montserrat/v31/JTUHjIg1_i6t8kCHKm4532VJOt5-QNFgpCtr6Ew-.ttf) format('truetype');
+        }
+        @font-face {
+            font-family: 'Montserrat';
+            font-style: normal;
+            font-weight: 600;
+            font-display: swap;
+            src: url(https://fonts.gstatic.com/s/montserrat/v31/JTUHjIg1_i6t8kCHKm4532VJOt5-QNFgpCu170w-.ttf) format('truetype');
+        }
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Montserrat', sans-serif;
+            background: #111824;
+            color: #f5f6fa;
+            min-height: 100vh;
+        }
+        .page {
+            width: 100%;
+            min-height: 100vh;
+            padding: 48px 60px 60px;
+            background: linear-gradient(135deg, #1a1f2c 0%, #262640 100%);
+            box-sizing: border-box;
+        }
+        .nav {
+            display: flex;
+            gap: 24px;
+            margin-bottom: 36px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .nav span {
+            font-size: 13px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            opacity: 0.6;
+        }
+        .nav span.active {
+            opacity: 1;
+            color: #ffd166;
+        }
+        h1 {
+            margin: 0;
+            font-size: 32px;
+            font-weight: 600;
+            color: #fff;
+        }
+        .muted {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 14px;
+            margin-top: 6px;
+            margin-bottom: 32px;
+        }
+        .summary-grid {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 28px;
+            margin-bottom: 32px;
+            align-items: center;
+        }
+        .gauge {
+            width: 240px;
+            height: 120px;
+            border-radius: 240px 240px 0 0;
+            background-image: conic-gradient(#3bb273 0deg 120deg, #ffd166 120deg 210deg, #ef476f 210deg 360deg);
+            position: relative;
+            overflow: hidden;
+            margin: 0 auto 10px;
+        }
+        .gauge::after {
+            content: '';
+            position: absolute;
+            width: 200px;
+            height: 100px;
+            background: #111824;
+            border-radius: 200px 200px 0 0;
+            left: 20px;
+            bottom: 0;
+        }
+        .needle {
+            position: absolute;
+            width: 2px;
+            height: 120px;
+            background: #fff;
+            left: 50%;
+            bottom: 0;
+            transform-origin: bottom;
+        }
+        .gauge-value {
+            text-align: center;
+            font-size: 56px;
+            font-weight: 600;
+            color: #fff;
+        }
+        .trend-card {
+            padding: 20px;
+            border-radius: 14px;
+            background: rgba(255, 255, 255, 0.03);
+        }
+        .trend-card h3 {
+            margin: 0 0 6px;
+            font-size: 16px;
+            color: #fff;
+        }
+        .trend-card p {
+            margin: 4px 0;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 13px;
+        }
+        .legend {
+            display: flex;
+            gap: 16px;
+            margin: 10px 0 24px;
+            flex-wrap: wrap;
+        }
+        .legend span {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .legend i {
+            width: 18px;
+            height: 18px;
+            border-radius: 4px;
+            display: inline-block;
+        }
+        .bars {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+        .question-row {
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 12px;
+            padding: 14px 18px;
+        }
+        .question-title {
+            font-size: 15px;
+            margin-bottom: 8px;
+        }
+        .bar {
+            display: flex;
+            height: 24px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+        }
+        .segment {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: 600;
+            color: #0c111b;
+        }
+        .segment.light {
+            color: #0c111b;
+        }
+        .segment.dark {
+            color: #fff;
+        }
+        .segment.red { background: #ef476f; }
+        .segment.orange { background: #f68f44; }
+        .segment.yellow { background: #ffd166; color: #111; }
+        .segment.green { background: #3bb273; color: #0c111b; }
+        .segment.dark-green { background: #1b7a46; color: #fff; }
+        .footer-note {
+            margin-top: 30px;
+            text-align: right;
+            font-size: 12px;
+            opacity: 0.6;
+        }
+    </style>
+</head>
+<body>
+    <div class="page">
+        <div class="nav">
+            <span>Inside My Team</span>
+            <span>Outside My Team</span>
+            <span class="active">Risk Factors</span>
+        </div>
+        <h1>Insights Summary</h1>
+        <div class="muted">24 Oct 2025 · Respondents analysed: 82</div>
+
+        <div class="summary-grid">
+            <div>
+                <div class="gauge">
+                    <div class="needle" style="transform: rotate(210deg);"></div>
+                </div>
+                <div class="gauge-value">27</div>
+                <div class="muted" style="text-align:center;">Overall risk score</div>
+            </div>
+            <div class="trend-card">
+                <h3>Trend</h3>
+                <p>24 Oct: 27</p>
+                <p>10 Oct: 34</p>
+                <p>26 Sep: 39</p>
+            </div>
+        </div>
+
+        <div class="legend">
+            <span><i style="background:#ef476f;"></i> Never</span>
+            <span><i style="background:#f68f44;"></i> Rarely</span>
+            <span><i style="background:#ffd166;"></i> Some of the time</span>
+            <span><i style="background:#3bb273;"></i> Most of the time</span>
+            <span><i style="background:#1b7a46;"></i> All of the time</span>
+        </div>
+
+        <div class="bars">
+            <div class="question-row">
+                <div class="question-title">I felt satisfied.</div>
+                <div class="bar">
+                    <span class="segment red" style="width:9%;">9%</span>
+                    <span class="segment orange" style="width:18%;">18%</span>
+                    <span class="segment yellow" style="width:18%;">18%</span>
+                    <span class="segment green" style="width:45%;">45%</span>
+                    <span class="segment dark-green" style="width:10%;">10%</span>
+                </div>
+            </div>
+            <div class="question-row">
+                <div class="question-title">I was trusted to do my job.</div>
+                <div class="bar">
+                    <span class="segment red" style="width:0%;">&nbsp;</span>
+                    <span class="segment orange" style="width:9%;">9%</span>
+                    <span class="segment yellow" style="width:18%;">18%</span>
+                    <span class="segment green" style="width:36%;">36%</span>
+                    <span class="segment dark-green" style="width:37%;">37%</span>
+                </div>
+            </div>
+            <div class="question-row">
+                <div class="question-title">I felt supported to balance my work/life needs.</div>
+                <div class="bar">
+                    <span class="segment red" style="width:9%;">9%</span>
+                    <span class="segment orange" style="width:18%;">18%</span>
+                    <span class="segment yellow" style="width:18%;">18%</span>
+                    <span class="segment green" style="width:27%;">27%</span>
+                    <span class="segment dark-green" style="width:28%;">28%</span>
+                </div>
+            </div>
+            <div class="question-row">
+                <div class="question-title">My workload was manageable.</div>
+                <div class="bar">
+                    <span class="segment red" style="width:0%;">&nbsp;</span>
+                    <span class="segment orange" style="width:9%;">9%</span>
+                    <span class="segment yellow" style="width:18%;">18%</span>
+                    <span class="segment green" style="width:45%;">45%</span>
+                    <span class="segment dark-green" style="width:28%;">28%</span>
+                </div>
+            </div>
+            <div class="question-row">
+                <div class="question-title">I felt the effort I put in was equal to the reward I took out.</div>
+                <div class="bar">
+                    <span class="segment red" style="width:9%;">9%</span>
+                    <span class="segment orange" style="width:18%;">18%</span>
+                    <span class="segment yellow" style="width:27%;">27%</span>
+                    <span class="segment green" style="width:36%;">36%</span>
+                    <span class="segment dark-green" style="width:10%;">10%</span>
+                </div>
+            </div>
+            <div class="question-row">
+                <div class="question-title">I was acknowledged or recognised for good work.</div>
+                <div class="bar">
+                    <span class="segment red" style="width:9%;">9%</span>
+                    <span class="segment orange" style="width:18%;">18%</span>
+                    <span class="segment yellow" style="width:27%;">27%</span>
+                    <span class="segment green" style="width:45%;">45%</span>
+                    <span class="segment dark-green" style="width:27%;">27%</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-note">
+            Snapshot created with Playwright · {{today}}
+        </div>
+    </div>
+</body>
+</html>
